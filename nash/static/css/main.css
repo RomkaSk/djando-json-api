@@ -1,0 +1,28 @@
+.main-wrapper {
+    margin-top: 40px;
+}
+
+.form-control {
+    height: 100%;
+}
+
+.table.table-striped {
+    margin-top: 20px;
+}
+
+.good-result, .error-result {
+    text-align: center;
+    background-color: rgba(80, 183, 80, 0.68);
+    font-size: 17px;
+    padding: 5px;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+}
+
+.error-result {
+    background-color: rgba(183, 80, 80, 0.6);
+}

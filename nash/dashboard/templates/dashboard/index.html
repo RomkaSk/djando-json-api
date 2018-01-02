@@ -4,17 +4,15 @@
 
   <form action="/dashboard/upload-file/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="row">
+    <div class="row" class="excel-upload-form">
       <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name"></div>
       <div class="col-md-4"><input type="file" name="file" class="form-control"></div>
-      <div class="col-md-4"><input type="submit" value="Submit" class="btn btn-primary"></div>
+      <div class="col-md-4"><input type="submit" value="Submit" class="btn btn-primary form-control"></div>
     </div>
   </form>
 
 
-  
-
-  <table class="table table-striped" style="margin-top: 20px;">
+  <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">#id</th>

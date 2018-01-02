@@ -1,9 +1,0 @@
-{% extends 'dashboard/base.html' %}
-{% block content %}
-<form action="/dashboard/upload-file/" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-    <input type="text" name="title"><br>
-    <input type="file" name="file"><br>
-    <input type="submit" value="Submit">
-  </form>
-  {% endblock %}

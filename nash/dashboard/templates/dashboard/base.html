@@ -1,28 +1,10 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.2/flatly/bootstrap.min.css">
-  <style>
-    .good-result, .error-result {
-      text-align: center;
-      background-color: rgba(80, 183, 80, 0.68);
-      font-size: 17px;
-      padding: 5px;
-      color: white;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 5;
-    }
-
-    .error-result {
-        background-color: rgba(183, 80, 80, 0.6);
-    }
-  </style>
-
-
-
+  <link rel="stylesheet" href="{% static "css/main.css" %}">
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
@@ -31,20 +13,12 @@
       </div>       
     </nav>
   <div id="result"></div>
-  <div class="container" style="margin-top: 40px;">
+  <div class="container main-wrapper">
 
       {% block content %}
       {% endblock %}
 
   </div>
-
-  
-  <script type="text/javascript">
-    if (location.hash == '#good') {
-      document.getElementById('result').innerHTML = '<div class="good-result">File uploaded successfully.</div>';
-    } else if (location.hash == '#error') {
-      document.getElementById('result').innerHTML = '<div class="error-result">Error while loading the file.</div>';
-    }
-   </script>
+<script src="{% static "javascript/main.js" %}"></script>
 </body>
 </html>
