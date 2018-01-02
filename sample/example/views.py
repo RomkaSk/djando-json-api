@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from .models import Entry
-from rest_framework import viewsets
+from rest_framework import viewsets 
 from .serializers import UserSerializer, GroupSerializer, EntrySerializer
 
 
@@ -28,11 +28,3 @@ class EntrysViewSet(viewsets.ModelViewSet):
     serializer_class = EntrySerializer
 
 
-# class EntryViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows entrys to be viewed or edited.
-#     """
-    
-#     queryset = Entry.objects.filter()
-#     serializer_class = EntrySerializer
-    

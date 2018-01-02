@@ -6,7 +6,6 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'entrys', views.EntrysViewSet)
-# router.register(r'entry/(?P<id>.+)/', views.EntryViewSet)
 
 
 # Wire up our API using automatic URL routing.
