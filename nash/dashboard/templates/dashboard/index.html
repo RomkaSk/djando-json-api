@@ -1,0 +1,42 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+  <form action="/dashboard/upload-file/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name"></div>
+      <div class="col-md-4"><input type="file" name="file" class="form-control"></div>
+      <div class="col-md-4"><input type="submit" value="Submit" class="btn btn-primary"></div>
+    </div>
+  </form>
+
+
+  
+
+  <table class="table table-striped" style="margin-top: 20px;">
+      <thead>
+        <tr>
+          <th scope="col">#id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Link</th>
+          <th scope="col">Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in files %}
+          <tr>
+            <th scope="row">{{ file.id }}</th>
+            <td>{{ file.title }}</td>
+            <td> <a href="{{ file.file.url }}">{{ file.file.url }}</a></td>
+            <td>{{ file.date }}</td>
+            <td><input type="submit" value="Start" class="btn btn-success btn-sm"></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+{% endblock %}
+
