@@ -1,0 +1,68 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<div class="file-details-block">
+    <div class="row">
+        <div class="col-md-8"><h4><b>#{{ file.id }}</b> {{ file.title }}</h4></div>
+        <div class="col-md-4">
+            <a href="{{ file.file.url }}" class="btn btn-success">Download</a>
+            <form action="/dashboard/file/del" method="POST" class="delete-form">
+                {% csrf_token %}
+                <input type="hidden" name="file" value="{{ file.id }}">  
+                <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="algorithm-block">
+    <form method="POST" action="/dashboard/file/execude" >
+        {% csrf_token %}
+        <div class="row">
+            <input type="hidden" name="file-id" value="{{ file.id }}">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <select class="form-control" name="alorithm-id">
+                        <option value="" disabled selected>Select Algorithm</option>
+                            {% for algorithm in algorithms %}
+                                <option value="{{ algorithm.id }}">{{ algorithm.title }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                
+                <div class="col-md-4">
+                    <input class="bnt btn btn-info" type="submit" value="Start" style="width: 100%">
+                </div>
+        </div>
+    </form>
+</div>
+
+<!-- results -->
+<div class="results-block">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#id</th>
+          <th scope="col">File</th>
+          <th scope="col">Algorithm</th>
+          <th scope="col">Date</th>
+          <th scope="col">Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+          <tr>
+            <th scope="row">{{ result.id }}</th>
+            <td>{{ result.file_name.title }}</td>
+            <td>{{ result.algorithm.title }}</td>
+            <td>{{ result.date }}</td>
+            <td><a href="{{ result.file.url }}" class="btn btn-success">Download</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

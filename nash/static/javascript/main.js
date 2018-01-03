@@ -6,3 +6,4 @@ if (location.hash == '#good') {
   } else if (location.hash == '#error') {
     document.getElementById('result').innerHTML = '<div class="error-result">Error while loading the file.</div>';
   }
+

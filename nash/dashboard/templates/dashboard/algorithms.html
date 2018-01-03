@@ -5,7 +5,7 @@
   <form action="/dashboard/upload-file/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row" class="excel-upload-form">
-      <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name"></div>
+      <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="Algorithm Name"></div>
       <div class="col-md-4"><input type="file" name="file" class="form-control"></div>
       <div class="col-md-4"><input type="submit" value="Upload" class="btn btn-primary form-control"></div>
     </div>
@@ -29,7 +29,11 @@
             <td>{{ file.title }}</td>
             <!-- <td> <a href="{{ file.file.url }}">{{ file.file.url }}</a></td> -->
             <td>{{ file.date }}</td>
-            <td><a class="btn btn-success btn-sm" href="/dashboard/file/{{ file.id }}">Details</a></td>
+            <td><form action="/dashboard/algorithm/del" method="POST" class="delete-form">
+                {% csrf_token %}
+                <input type="hidden" name="file" value="{{ file.id }}">  
+                <input type="submit" class="btn btn-danger" value="Delete">
+            </form></td>
           </tr>
         {% endfor %}
       </tbody>

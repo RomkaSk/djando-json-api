@@ -26,3 +26,19 @@
 .error-result {
     background-color: rgba(183, 80, 80, 0.6);
 }
+
+.delete-form {
+    display: inline;
+}
+
+.file-details-block .btn {
+    width: 49%;
+}
+
+.file-details-block input.btn {
+    float: right;
+}
+
+.algorithm-block {
+    margin-top: 35px;
+}
