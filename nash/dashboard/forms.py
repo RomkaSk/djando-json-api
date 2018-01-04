@@ -1,6 +1,13 @@
 from django import forms
-from .validators import validate_file_extension
+from .validators import validate_input_file_extension
 
-class UploadFileForm(forms.Form):
+class UploadInputFileForm(forms.Form):
+    """ Upload input file """
     title = forms.CharField(max_length=255)
-    file = forms.FileField(validators=[validate_file_extension])
+    file = forms.FileField(validators=[validate_input_file_extension])
+
+
+class UploadAlgorithmFileForm(forms.Form):
+    """ Upload algorithm file """
+    title = forms.CharField(max_length=255)
+    file = forms.FileField(validators=[validate_input_file_extension])

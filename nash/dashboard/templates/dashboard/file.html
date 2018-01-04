@@ -2,14 +2,28 @@
 
 {% block content %}
 
+
+{% if alert %}
+    <div class="alert alert-danger" role="alert">
+        {{ alert }}
+    </div>
+{% endif %}
+
+<h4>{{ file.project.title }}</h4>
+<hr>
+
 <div class="file-details-block">
     <div class="row">
-        <div class="col-md-8"><h4><b>#{{ file.id }}</b> {{ file.title }}</h4></div>
+        <div class="col-md-8">
+            <h4>{{ file.title }}</h4>
+            <p>{{ file.file.name }}</p>
+        </div>
         <div class="col-md-4">
             <a href="{{ file.file.url }}" class="btn btn-success">Download</a>
             <form action="/dashboard/file/del" method="POST" class="delete-form">
                 {% csrf_token %}
-                <input type="hidden" name="file" value="{{ file.id }}">  
+                <input type="hidden" name="file" value="{{ file.id }}">
+                <input type="hidden" name="type" value="input_file">  
                 <input type="submit" class="btn btn-danger" value="Delete">
             </form>
         </div>
@@ -47,7 +61,7 @@
           <th scope="col">File</th>
           <th scope="col">Algorithm</th>
           <th scope="col">Date</th>
-          <th scope="col">Download</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -57,7 +71,15 @@
             <td>{{ result.file_name.title }}</td>
             <td>{{ result.algorithm.title }}</td>
             <td>{{ result.date }}</td>
-            <td><a href="{{ result.file.url }}" class="btn btn-success">Download</a></td>
+            <td>
+                <a href="{{ result.file.url }}" class="btn btn-success">Download</a>
+                <form action="/dashboard/file/del" method="POST" class="delete-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="file" value="{{ result.id }}">
+                    <input type="hidden" name="type" value="result">  
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </td>
           </tr>
         {% endfor %}
       </tbody>

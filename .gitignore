@@ -3,3 +3,7 @@ myvenv
 *.sqlite3
 *.xlsx
 *.csv
+*.pyc
+*~
+__pycache__
+.DS_Store

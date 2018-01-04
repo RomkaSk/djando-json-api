@@ -1,0 +1,27 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+{% if alert %}
+    <div class="alert alert-danger" role="alert">
+        {{ alert }}
+    </div>
+{% endif %}
+
+    <h4>Projects</h4>
+    <hr>
+    <div class="row">
+        {% for project in projects %}
+            <div class="col-md-3">
+                <div class="card border-light mb-3" style="max-width: 20rem;">
+                    <!-- <div class="card-header">#{{ project.id }}</div> -->
+                    <div class="card-body">
+                    <h4 class="card-title"> <a href="/dashboard/project/{{ project.id }}">{{ project.title }} </a></h4>
+                    <p class="card-text">{{ project.description }}</p>
+                    </div>
+                </div>  
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

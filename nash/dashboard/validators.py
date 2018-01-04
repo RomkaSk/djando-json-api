@@ -1,4 +1,4 @@
-def validate_file_extension(value):
+def validate_input_file_extension(value):
     import os
     from django.core.exceptions import ValidationError
     ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
@@ -11,7 +11,7 @@ def validate_file_extension(value):
 def validate_algorithm_file_extension(value):
     import os
     from django.core.exceptions import ValidationError
-    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    ext = os.path.splitext(value.name)[1] 
     valid_extensions = ['.py']
     
     if not ext.lower() in valid_extensions:
