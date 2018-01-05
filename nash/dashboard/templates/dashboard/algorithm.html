@@ -13,7 +13,7 @@
     <hr>
     {% if algorithm_data.type == "FORMAT_FILE" %}
         <div class="algorithm-block">
-            <form action="/dashboard/file/execude" method="post" enctype="multipart/form-data">
+            <form action="/dashboard/file/execude" method="post" class="excel-upload-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row" class="excel-upload-form">
                 <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name" required></div>
