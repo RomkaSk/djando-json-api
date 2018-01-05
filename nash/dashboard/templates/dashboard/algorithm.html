@@ -1,0 +1,102 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+{% if alert %}
+    <div class="alert alert-danger" role="alert">
+        {{ alert }}
+    </div>
+{% endif %}
+
+    <h4>{{ algorithm.title }}</h4>
+    <p>Project: {{ project.title }} | Type: {{ algorithm_data.type }}</p>
+    <hr>
+    {% if algorithm_data.type == "FORMAT_FILE" %}
+        <div class="algorithm-block">
+            <form action="/dashboard/file/execude" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row" class="excel-upload-form">
+                <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name" required></div>
+                <div class="col-md-4"><input type="file" name="file" class="form-control" required></div>
+                <input type="hidden" name="project_id" value="{{ project.id }}">
+                <input type="hidden" name="alorithm-id" value="{{ algorithm.id }}">
+                <input type="hidden" name="type" value="input_file">
+                <div class="col-md-4"><input type="submit" value="Start" class="btn btn-primary form-control"></div>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <div class="algorithm-block">
+            <form action="/dashboard/file/execude" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="project_id" value="{{ project.id }}">
+                <input type="hidden" name="alorithm-id" value="{{ algorithm.id }}">
+                <input type="hidden" name="type" value="input_api">
+
+                <div class="row" >
+                    <div class="col-md-4">
+                        <input type="text" name="host_api" class="form-control" placeholder="Host" required>
+                        <input type="text" name="user_agent" class="form-control" placeholder="User Agent" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="client_secret" class="form-control" placeholder="Сlient Secret" required>
+                        <input type="text" name="client_id" class="form-control" placeholder="Client Id" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="url_token" class="form-control" placeholder="Url Token" required>
+                        <input type="submit" value="Start" class="btn btn-primary form-control">
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+
+    
+<!-- results -->
+<div class="results-block">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#id</th>
+            <th scope="col">File</th>
+            <th scope="col">Algorithm</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for result in results %}
+            <tr>
+              <th scope="row">{{ result.id }}</th>
+              <td>{{ result.file_name.title }}</td>
+              <td>{{ result.algorithm.title }}</td>
+              <td>{{ result.date }}</td>
+              <td>
+                  {% if result.file %}
+                  <a href="../../../{{ result.file.url }}" class="btn btn-success">Download</a>
+                  <form action="/dashboard/file/del" method="POST" class="delete-form">
+                      {% csrf_token %}
+                      <input type="hidden" name="file" value="{{ result.id }}">
+                      <input type="hidden" name="type" value="result">  
+                      <input type="submit" class="btn btn-danger" value="Delete">
+                  </form>
+                  {% else %}
+                    <form action="/dashboard/file/del" method="POST" class="delete-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="file" value="{{ result.id }}">
+                        <input type="hidden" name="type" value="result">  
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                  {% endif %}
+                  
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+
+{% endblock %}

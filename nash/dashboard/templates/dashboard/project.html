@@ -10,6 +10,7 @@
       <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name" required></div>
       <div class="col-md-4"><input type="file" name="file" class="form-control" required></div>
       <input type="hidden" name="project_id" value="{{ project.id }}">
+      <input type="hidden" name="type" value="algorithm_file">
       <div class="col-md-4"><input type="submit" value="Upload" class="btn btn-primary form-control"></div>
     </div>
   </form>
@@ -24,12 +25,12 @@
         </tr>
       </thead>
       <tbody>
-        {% for file in files %}
+        {% for algorithm in algorithms %}
           <tr>
-            <th scope="row">{{ file.id }}</th>
-            <td>{{ file.title }}</td>
-            <td>{{ file.date }}</td>
-            <td><a class="btn btn-success btn-sm" href="/dashboard/file/{{ file.id }}">Details</a></td>
+            <th scope="row">{{ algorithm.id }}</th>
+            <td>{{ algorithm.title }}</td>
+            <td>{{ algorithm.date }}</td>
+            <td><a class="btn btn-success btn-sm" href="/dashboard/algorithm/{{ algorithm.id }}/{{ project.id }}">Details</a></td>
           </tr>
         {% endfor %}
       </tbody>

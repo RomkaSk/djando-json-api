@@ -36,7 +36,8 @@ class Algorithm(models.Model):
 
 
 class Result(models.Model):
-    file_name = models.ForeignKey('InputFile')
+    file_name = models.ForeignKey('InputFile', null=True)
     algorithm = models.ForeignKey('Algorithm')
-    file = models.FileField(upload_to='uploads/result/')
+    project = models.ForeignKey('Project')
+    file = models.FileField(upload_to='uploads/result/', null=True)
     date = models.DateTimeField(auto_now_add=True)

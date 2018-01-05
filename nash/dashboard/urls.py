@@ -10,7 +10,6 @@ urlpatterns = [
     url(r'^file/del$', views.delete_file),
     url(r'^file/execude$', views.execude_file),
 
-    url(r'^algorithm/(?P<algorithm_id>[0-9]+)$', views.delete_file),
-    url(r'^algorithms/$', views.delete_file),
+    url(r'^algorithm/(?P<algorithm_id>[0-9]+)/(?P<project_id>[0-9]+)$', views.algorithm_view),
     url(r'^algorithm/del$', views.delete_file),
 ]
