@@ -32,6 +32,7 @@ def main(api_data):
     # client_id = 'monique_client'
     # client_secret = 'DFhj3MDz6GYXdUU34534sdhLKJHw78665Ds'
     # user_agent = 'monique' 
+
     url_token = api_data['url_token']
     client_id = api_data['client_id']
     client_secret = api_data['client_secret']
@@ -41,6 +42,7 @@ def main(api_data):
     # url_Orders = 'http://gateway-an.alpha.spheremall.net:8085/v1/orders?limit=all'
     # url_OrdersItems = 'http://gateway-an.alpha.spheremall.net:8085/v1/orderitems?limit=all'
     # url_Products = 'http://gateway-an.alpha.spheremall.net:8085/v1/products?limit=all'
+
     url_Orders = api_data['host_api'] + '/v1/orders?limit=all'
     url_OrdersItems = api_data['host_api'] + '/v1/orderitems?limit=all'
     url_Products = api_data['host_api'] + '/v1/products?limit=all'
@@ -261,10 +263,9 @@ def main(api_data):
         df_CrossCorrelations.iloc[(list_Combinations_Revised[i][0]-1),(list_Combinations_Revised[i][1]-1)] = list_Confidence[(2*i)]
         df_CrossCorrelations.iloc[(list_Combinations_Revised[i][1]-1),(list_Combinations_Revised[i][0]-1)] = list_Confidence[(2*i+1)]
 
+
     # df_CrossCorrelations.to_csv("CrossCorrelations-ECLAT.csv") 
-
     df_CrossCorrelations.to_csv(api_data['output_name'] + '.csv')
-
 
 
 def get_api_result(input_api_data):

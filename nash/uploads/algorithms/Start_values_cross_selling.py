@@ -358,6 +358,7 @@ def main(input_path, output_path):
 
     ### Store results ###
     df_CrossCorrelation = pd.DataFrame(np_CrossCorrelation)
+    
     # df_CrossCorrelation.to_csv("CrossCorrelationsFIRST.csv")
     df_CrossCorrelation.to_csv(output_path + ".csv")
 
