@@ -11,6 +11,14 @@
     <h4>{{ algorithm.title }}</h4>
     <p>Project: {{ project.title }} | Type: {{ algorithm_data.type }}</p>
     <hr>
+    {% if algorithm_data.type == "NONE" %}
+    
+    <div class="algorithm-block">
+            <div class="alert alert-danger" role="alert">
+                The constant "EXECUTE_TYPE" is not set or incorrect
+            </div>
+    </div>
+    {% endif %}
     {% if algorithm_data.type == "FORMAT_FILE" %}
         <div class="algorithm-block">
             <form action="/dashboard/file/execude" method="post" class="excel-upload-form" enctype="multipart/form-data">

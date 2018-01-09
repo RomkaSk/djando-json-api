@@ -16,16 +16,9 @@ import re
 import os
 from . import api_connection
 
+EXECUTE_TYPE = 'API'
 
-def main(api_data):
-    # Set path
-    # path = 'E:\\Projects\\nash-environment\\algorithms'
-    # path = 
-    # os.chdir(path)
-
-    ###############################################################################
-    #                               API CONNECTION                                #
-    ###############################################################################
+def main(execute_data):
 
     # Login
     # url_token = 'http://gateway-an.alpha.spheremall.net:8085/v1/oauth/token'
@@ -33,19 +26,19 @@ def main(api_data):
     # client_secret = 'DFhj3MDz6GYXdUU34534sdhLKJHw78665Ds'
     # user_agent = 'monique' 
 
-    url_token = api_data['url_token']
-    client_id = api_data['client_id']
-    client_secret = api_data['client_secret']
-    user_agent = api_data['user_agent']
+    url_token = execute_data['url_token']
+    client_id = execute_data['client_id']
+    client_secret = execute_data['client_secret']
+    user_agent = execute_data['user_agent']
 
     # Needed urls
     # url_Orders = 'http://gateway-an.alpha.spheremall.net:8085/v1/orders?limit=all'
     # url_OrdersItems = 'http://gateway-an.alpha.spheremall.net:8085/v1/orderitems?limit=all'
     # url_Products = 'http://gateway-an.alpha.spheremall.net:8085/v1/products?limit=all'
 
-    url_Orders = api_data['host_api'] + '/v1/orders?limit=all'
-    url_OrdersItems = api_data['host_api'] + '/v1/orderitems?limit=all'
-    url_Products = api_data['host_api'] + '/v1/products?limit=all'
+    url_Orders = execute_data['host_api'] + '/v1/orders?limit=all'
+    url_OrdersItems = execute_data['host_api'] + '/v1/orderitems?limit=all'
+    url_Products = execute_data['host_api'] + '/v1/products?limit=all'
 
 
     ###############################################################################
@@ -265,10 +258,10 @@ def main(api_data):
 
 
     # df_CrossCorrelations.to_csv("CrossCorrelations-ECLAT.csv") 
-    df_CrossCorrelations.to_csv(api_data['output_name'] + '.csv')
+    df_CrossCorrelations.to_csv(execute_data['output_name'])
 
 
-def get_api_result(input_api_data):
-    return main(input_api_data)
+def get_result(data):
+    return main(data)
             
         

@@ -47,10 +47,12 @@ def algorithm_view(request, algorithm_id, project_id, alert=''):
                             basename(algorithm.file.name).split('.')[0])
         
         # Check algorithm type
-        if hasattr(algorithm_module, 'get_api_result'):
-            algorithm_data['type'] = 'FORMAT_API'
-        if hasattr(algorithm_module, 'get_result'):
-            algorithm_data['type'] = 'FORMAT_FILE'
+        if algorithm_module.EXECUTE_TYPE == 'API':
+            algorithm_data['type'] = 'API'
+        elif algorithm_module.EXECUTE_TYPE == 'FILE':
+            algorithm_data['type'] = 'FILE'
+        else:
+            algorithm_data['type'] = 'NONE'
 
         return render(request,
                         'dashboard/algorithm.html',
@@ -154,18 +156,22 @@ def execude_file(request):
 
                 old_file_path = excel_file.file.url
                 new_file_path = './uploads/results/' + \
-                    time.strftime("%H%M%S") + basename(old_file_path).split('.')[0]
+                    time.strftime("%H%M%S") + basename(old_file_path).split('.')[0] + '.csv'
 
                 # Getting module
                 algorithm_module = importlib.import_module(
                     'uploads.algorithms.' + basename(algorithm.file.name).split('.')[0])
 
                 # Execute algorithm
-                algorithm_module.get_result('.' + old_file_path, new_file_path)
+                data = {
+                    'input_path': '.' + old_file_path, 
+                    'output_path' : new_file_path 
+                }
+                algorithm_module.get_result(data)
 
                 # Convert .csv to .xlxs
-                merge_all_to_a_book(glob.glob(new_file_path + '.csv'), new_file_path + '.xlsx')
-                new_file_path = new_file_path + '.xlsx'
+                # merge_all_to_a_book(glob.glob(new_file_path + '.csv'), new_file_path + '.xlsx')
+                # new_file_path = new_file_path + '.xlsx'
 
                 # Save result to database
                 Result.objects.create(
@@ -178,7 +184,7 @@ def execude_file(request):
             elif request.POST['type'] == 'input_api':
                 # forming data for API request
                 data = {
-                    'output_name': './uploads/results/' + time.strftime("%H%M%S"),
+                    'output_name': './uploads/results/' + time.strftime("%H%M%S") + '.csv',
                     'url_token': request.POST['url_token'],
                     'client_id': request.POST['client_id'],
                     'client_secret': request.POST['client_secret'],
@@ -192,17 +198,18 @@ def execude_file(request):
                 algorithm_module = importlib.import_module(
                     'uploads.algorithms.' + basename(algorithm.file.name).split('.')[0])
 
-                # Execute algorithm
-                algorithm_module.get_api_result(data)
-
                 new_file_path = data['output_name']
+                # data['output_name'] += '.csv'
+                # Execute algorithm
+                algorithm_module.get_result(data)
+
 
                 # Convert .csv to .xlxs
-                try:
-                    merge_all_to_a_book(glob.glob(new_file_path + '.csv'), new_file_path + '.xlsx')
-                    new_file_path = new_file_path + '.xlsx'
-                except IOError as e:
-                    print(u'File not found')
+                # try:
+                    # merge_all_to_a_book(glob.glob(new_file_path + '.csv'), new_file_path + '.xlsx')
+                    # new_file_path = new_file_path + '.xlsx'
+                # except IOError as e:
+                    # print(u'File not found')
 
                 project = Project.objects.get(id=request.POST['project_id'])
 
