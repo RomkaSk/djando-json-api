@@ -147,7 +147,7 @@ MEDIA_URL = '/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/static/',
+    '/var/www/html/nash/static',
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
