@@ -151,3 +151,4 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = "/var/www/html/nash/static"
