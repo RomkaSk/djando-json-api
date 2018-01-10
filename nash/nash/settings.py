@@ -26,7 +26,7 @@ SECRET_KEY = '=yaw-#8j(tsrz8ml81_nu&5_uynka89ljsu7lh0#r(douc)vu5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['46.17.1.84', 'nash.spheremall.com']
 
 
 # Application definition
@@ -138,17 +138,17 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/admin/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/var/www/html/nash/static',
+    os.path.join(BASE_DIR, "static") + '/css/',
 ]
+MEDIA_URL = '/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = "/var/www/html/nash/static"
+STATIC_ROOT =  os.path.join(BASE_DIR, "static")

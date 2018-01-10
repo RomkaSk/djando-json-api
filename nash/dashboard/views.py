@@ -13,8 +13,10 @@ from .models import Result
 from .models import Project
 from .forms import UploadInputFileForm
 from .forms import UploadAlgorithmFileForm
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def projects_view(request, alert=''):
     """ Projects list view on /dashboard/ page """
     projects = Project.objects.all()[::-1]
@@ -22,7 +24,7 @@ def projects_view(request, alert=''):
     return render(request, 'dashboard/projects.html',
                   {'projects': projects, 'alert': alert})
 
-
+@login_required
 def project_view(request, project_id):
     """ Detail project view """
     try:
@@ -32,11 +34,11 @@ def project_view(request, project_id):
         return render(request, 'dashboard/project.html',
                       {'algorithms': algorithms, 'project': project})
     except BaseException:
-        return redirect('/dashboard/')
+        return redirect('/')
 
-
+@login_required
 def algorithm_view(request, algorithm_id, project_id, alert=''):
-    try:
+    # try:
         algorithm_data = {}
         algorithm = Algorithm.objects.get(id=algorithm_id)
         project = Project.objects.get(id=project_id)
@@ -62,11 +64,11 @@ def algorithm_view(request, algorithm_id, project_id, alert=''):
                         'project': project,
                         'alert': alert })
 
-    except Exception as error:
-        print(error) 
-        return redirect('/dashboard/algorithm/' + algorithm_id)
+    # except Exception as error:
+        # print(error) 
+        # return redirect('/algorithm/' + algorithm_id)
 
-
+@login_required
 def file_view(request, file_id, alert=''):
     """  Temporarily not used!!
     Detail file view """
@@ -84,9 +86,9 @@ def file_view(request, file_id, alert=''):
                        'alert': alert})
     except Exception as error:
         print(error)
-        return redirect('/dashboard/')
+        return redirect('/')
 
-
+@login_required
 def upload_file(request):  # TODO remake for algorithms and excels
     """ Upload file function """
     if request.method == 'POST':
@@ -123,7 +125,7 @@ def upload_file(request):  # TODO remake for algorithms and excels
         # form = UploadInputFileForm()
     return redirect(request.META['HTTP_REFERER'])
 
-
+@login_required
 def delete_file(request):
     """ Delete file function """
     if request.method == 'POST':
@@ -139,9 +141,9 @@ def delete_file(request):
                 return redirect(request.META['HTTP_REFERER'])
         except Exception as error:  # TODO handle exceptions
             print(error)
-    return redirect('/dashboard/')
+    return redirect('/')
 
-
+@login_required
 def execude_file(request):
     """ Function execude algorithm """
     if request.method == 'POST':
@@ -227,8 +229,8 @@ def execude_file(request):
                     file=new_file_path,
                     project=project)
 
-                return redirect('/dashboard/algorithm/{}/{}'.format(request.POST['alorithm-id'], request.POST['project_id']) )
+                return redirect('/algorithm/{}/{}'.format(request.POST['alorithm-id'], request.POST['project_id']) )
         except Exception as error:
             return algorithm_view(request, request.POST['alorithm-id'], request.POST['project_id'] , alert=error)
 
-    return redirect('/dashboard/')
+    return redirect('/')

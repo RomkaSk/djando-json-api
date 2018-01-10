@@ -4,7 +4,7 @@
 
 <h4>{{ project.title }}</h4>
 <hr>
-  <form action="/dashboard/upload-file/" class="excel-upload-form" method="post" enctype="multipart/form-data">
+  <form action="/upload-file/" class="excel-upload-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row" class="excel-upload-form">
       <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="File Name" required></div>
@@ -30,7 +30,7 @@
             <th scope="row">{{ algorithm.id }}</th>
             <td>{{ algorithm.title }}</td>
             <td>{{ algorithm.date }}</td>
-            <td><a class="btn btn-success btn-sm" href="/dashboard/algorithm/{{ algorithm.id }}/{{ project.id }}">Details</a></td>
+            <td><a class="btn btn-success btn-sm" href="/algorithm/{{ algorithm.id }}/{{ project.id }}">Details</a></td>
           </tr>
         {% endfor %}
       </tbody>

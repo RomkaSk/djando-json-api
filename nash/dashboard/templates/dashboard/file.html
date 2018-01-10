@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-4">
             <a href="{{ file.file.url }}" class="btn btn-success">Download</a>
-            <form action="/dashboard/file/del" method="POST" class="delete-form">
+            <form action="/file/del" method="POST" class="delete-form">
                 {% csrf_token %}
                 <input type="hidden" name="file" value="{{ file.id }}">
                 <input type="hidden" name="type" value="input_file">  
@@ -30,7 +30,7 @@
     </div>
 </div>
 <div class="algorithm-block">
-    <form method="POST" action="/dashboard/file/execude" >
+    <form method="POST" action="/file/execude" >
         {% csrf_token %}
         <div class="row">
             <input type="hidden" name="file-id" value="{{ file.id }}">
@@ -73,7 +73,7 @@
             <td>{{ result.date }}</td>
             <td>
                 <a href="{{ result.file.url }}" class="btn btn-success">Download</a>
-                <form action="/dashboard/file/del" method="POST" class="delete-form">
+                <form action="/file/del" method="POST" class="delete-form">
                     {% csrf_token %}
                     <input type="hidden" name="file" value="{{ result.id }}">
                     <input type="hidden" name="type" value="result">  
