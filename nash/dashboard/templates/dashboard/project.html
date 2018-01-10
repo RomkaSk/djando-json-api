@@ -2,6 +2,12 @@
 
 {% block content %}
 
+{% if alert %}
+    <div class="alert alert-danger" role="alert">
+        {{ alert }}
+    </div>
+{% endif %}
+
 <h4>{{ project.title }}</h4>
 <hr>
   <form action="/upload-file/" class="excel-upload-form" method="post" enctype="multipart/form-data">

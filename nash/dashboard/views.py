@@ -2,7 +2,7 @@ import sys
 import time
 import glob
 import importlib.util
-from pyexcel.cookbook import merge_all_to_a_book
+# from pyexcel.cookbook import merge_all_to_a_book
 from os.path import basename
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -14,6 +14,7 @@ from .models import Project
 from .forms import UploadInputFileForm
 from .forms import UploadAlgorithmFileForm
 from django.contrib.auth.decorators import login_required
+from .scripts import *
 
 
 @login_required
@@ -25,20 +26,20 @@ def projects_view(request, alert=''):
                   {'projects': projects, 'alert': alert})
 
 @login_required
-def project_view(request, project_id):
+def project_view(request, project_id, alert=''):
     """ Detail project view """
     try:
         algorithms = Algorithm.objects.filter(project=project_id)[::-1]
         project = Project.objects.get(id=project_id)
 
         return render(request, 'dashboard/project.html',
-                      {'algorithms': algorithms, 'project': project})
+                      {'algorithms': algorithms, 'project': project, 'alert':alert})
     except BaseException:
         return redirect('/')
 
 @login_required
 def algorithm_view(request, algorithm_id, project_id, alert=''):
-    # try:
+    try:
         algorithm_data = {}
         algorithm = Algorithm.objects.get(id=algorithm_id)
         project = Project.objects.get(id=project_id)
@@ -64,9 +65,9 @@ def algorithm_view(request, algorithm_id, project_id, alert=''):
                         'project': project,
                         'alert': alert })
 
-    # except Exception as error:
-        # print(error) 
-        # return redirect('/algorithm/' + algorithm_id)
+    except Exception as error:
+        print(error) 
+        return project_view(request, project_id, alert='')
 
 @login_required
 def file_view(request, file_id, alert=''):
@@ -149,88 +150,15 @@ def execude_file(request):
     if request.method == 'POST':
         try:
             if request.POST['type'] == 'input_file':
-                file_id = upload_file(request)
 
-                algorithm_id = request.POST['alorithm-id']
-                
-                algorithm = Algorithm.objects.get(id=algorithm_id)
-                excel_file = InputFile.objects.get(id=file_id)
-
-                old_file_path = excel_file.file.url
-                new_file_path = './uploads/results/' + \
-                    time.strftime("%H%M%S") + basename(old_file_path).split('.')[0] + '.csv'
-
-                # Getting module
-                algorithm_module = importlib.import_module(
-                    'uploads.algorithms.' + basename(algorithm.file.name).split('.')[0])
-
-                # Execute algorithm
-                data = {
-                    'input_path': '.' + old_file_path, 
-                    'output_path' : new_file_path 
-                }
-                algorithm_module.get_result(data)
-
-                # Convert .csv to .xlxs
-                # merge_all_to_a_book(glob.glob(new_file_path + '.csv'), new_file_path + '.xlsx')
-                # new_file_path = new_file_path + '.xlsx'
-
-                # Save result to database
-                Result.objects.create(
-                    file_name=excel_file,
-                    algorithm=algorithm,
-                    file=new_file_path,
-                    project=Project.objects.get(id=request.POST['project_id']))
+                execute_file_type(request)
                 
                 return redirect(request.META['HTTP_REFERER'])
             elif request.POST['type'] == 'input_api':
-                # forming data for API request
-                data = {
-                    'output_name': './uploads/results/' + time.strftime("%H%M%S") + '.csv',
-                    'url_token': request.POST['url_token'],
-                    'client_id': request.POST['client_id'],
-                    'client_secret': request.POST['client_secret'],
-                    'user_agent': request.POST['user_agent'],
-                    'host_api': request.POST['host_api']
-                }
-                algorithm_id = request.POST['alorithm-id']
-                
-                # Getting module
-                algorithm = Algorithm.objects.get(id=algorithm_id)
-                algorithm_module = importlib.import_module(
-                    'uploads.algorithms.' + basename(algorithm.file.name).split('.')[0])
 
-                new_file_path = data['output_name']
-                # data['output_name'] += '.csv'
-                # Execute algorithm
-                algorithm_module.get_result(data)
-
-
-                # Convert .csv to .xlxs
-                # try:
-                    # merge_all_to_a_book(glob.glob(new_file_path + '.csv'), new_file_path + '.xlsx')
-                    # new_file_path = new_file_path + '.xlsx'
-                # except IOError as e:
-                    # print(u'File not found')
-
-                project = Project.objects.get(id=request.POST['project_id'])
-
-                # Save result if algorithm sended across api
-                if len(new_file_path) < 7:
-                    new_file_path = ''
-
-                    Result.objects.create(
-                    algorithm=algorithm,
-                    project=project)
-                # Save result if algorithm create local file 
-                else:
-                    Result.objects.create(
-                    algorithm=algorithm,
-                    file=new_file_path,
-                    project=project)
+                execute_api_type(request)                
 
                 return redirect('/algorithm/{}/{}'.format(request.POST['alorithm-id'], request.POST['project_id']) )
         except Exception as error:
             return algorithm_view(request, request.POST['alorithm-id'], request.POST['project_id'] , alert=error)
-
     return redirect('/')

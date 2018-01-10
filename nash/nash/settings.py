@@ -26,7 +26,7 @@ SECRET_KEY = '=yaw-#8j(tsrz8ml81_nu&5_uynka89ljsu7lh0#r(douc)vu5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['46.17.1.84', 'nash.spheremall.com']
+ALLOWED_HOSTS = ['46.17.1.84', 'nash.spheremall.com', '127.0.0.1']
 
 
 # Application definition
@@ -146,7 +146,7 @@ LOGIN_URL = '/admin/'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static") + '/css/',
+    os.path.join(BASE_DIR, "static"),
 ]
 MEDIA_URL = '/'
 
