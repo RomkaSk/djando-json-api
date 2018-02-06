@@ -10,4 +10,4 @@ pandas
 numpy
 sqlalchemy
 sklearn
-scipy==1.0.0```
+scipy==1.0.0

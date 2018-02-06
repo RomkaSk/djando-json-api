@@ -15,13 +15,16 @@ from .forms import UploadInputFileForm
 from .forms import UploadAlgorithmFileForm
 from django.contrib.auth.decorators import login_required
 from .scripts import *
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
 def projects_view(request, alert=''):
     """ Projects list view on /dashboard/ page """
     projects = Project.objects.all()[::-1]
-
     return render(request, 'dashboard/projects.html',
                   {'projects': projects, 'alert': alert})
 
@@ -66,7 +69,7 @@ def algorithm_view(request, algorithm_id, project_id, alert=''):
                         'alert': alert })
 
     except Exception as error:
-        print(error) 
+        logger.error(error)
         return project_view(request, project_id, alert='')
 
 @login_required
